@@ -25,3 +25,10 @@ swift_elixir_test-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+
+# For Autoconf
+/autom4te.cache/
+
+# For configure
+/config.log
