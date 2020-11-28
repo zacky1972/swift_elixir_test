@@ -32,3 +32,12 @@ swift_elixir_test-*.tar
 
 # For configure
 /config.log
+
+# For build files
+/native/.deps
+/native/.dirstamp
+/native/.libs
+/native/*.o
+/native/*.lo
+/priv
+
