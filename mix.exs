@@ -8,8 +8,11 @@ defmodule SwiftElixirTest.MixProject do
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      compilers: [:elixir_make] ++ Mix.compilers,
-      aliases: [compile: [&configure/1, "compile"]],
+      compilers: [:elixir_make] ++ Mix.compilers(),
+      aliases: [
+        compile: [&configure/1, "compile"],
+        clean: [&configure/1, "clean"]
+      ],
       make_clean: ["clean"]
     ]
   end
