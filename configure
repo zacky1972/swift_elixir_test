@@ -4005,25 +4005,41 @@ fi
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking setting ERL_EI_INCLUDE_DIR" >&5
+$as_echo_n "checking setting ERL_EI_INCLUDE_DIR... " >&6; }
 if test "x$ERL_EI_INCLUDE_DIR" = "x"; then
 	ERL_EI_INCLUDE_DIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/include") |> IO.puts')
 
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ERL_EI_INCLUDE_DIR" >&5
+$as_echo "$ERL_EI_INCLUDE_DIR" >&6; }
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking setting ERL_EI_LIBDIR" >&5
+$as_echo_n "checking setting ERL_EI_LIBDIR... " >&6; }
 if test "x$ERL_EI_LIBDIR" = "x"; then
 	ERL_EI_LIBDIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/lib") |> IO.puts')
 
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ERL_EI_LIBDIR" >&5
+$as_echo "$ERL_EI_LIBDIR" >&6; }
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking setting ERL_CFLAGS" >&5
+$as_echo_n "checking setting ERL_CFLAGS... " >&6; }
 if test "x$ERL_CFLAGS" = "x"; then
 	ERL_CFLAGS=$($ELIXIR --eval '"-I#{System.get_env("ERL_EI_INCLUDE_DIR", "#{to_string(:code.root_dir)}/usr/include")}" |> IO.puts')
 
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ERL_CFLAGS" >&5
+$as_echo "$ERL_CFLAGS" >&6; }
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking setting ERL_LDFLAGS" >&5
+$as_echo_n "checking setting ERL_LDFLAGS... " >&6; }
 if test "x$ERL_LDFLAGS" = "x"; then
 	ERL_LDFLAGS=$($ELIXIR --eval '"-L#{System.get_env("ERL_EI_LIBDIR", "#{to_string(:code.root_dir)}/usr/lib")}" |> IO.puts')
 
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ERL_LDFLAGS" >&5
+$as_echo "$ERL_LDFLAGS" >&6; }
 
 case `pwd` in
   *\ * | *\	*)
