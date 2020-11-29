@@ -87,11 +87,25 @@ int main() {
 	return 0;
 }
 EOF
-	if xcrun clang _framework.m -o _framework && ./_framework ; then
+	if xcrun clang _framework.m -o _framework > /dev/null 2>&1 && ./_framework > /dev/null 2>&1 ; then
 		working_foundation=yes
 	fi
 	rm -f _framework.m _framework.o _framework
 	AC_MSG_RESULT([$working_foundation])
+
+	AC_MSG_CHECKING([whether NSLog works])
+	cat>_nslog.m<<EOF
+#import <Foundation/Foundation.h>
+int main() {
+	NSLog(@"hello world");
+	return 0;
+}
+EOF
+	if xcrun clang _nslog.m -o _nslog -framework Foundation > /dev/null 2>&1 && ./_nslog  > /dev/null 2>&1 ; then
+		working_nslog=yes
+	fi
+	rm -f _nslog.m _nslog.o _nslog
+	AC_MSG_RESULT([$working_nslog])
 fi
 
 LT_INIT()
