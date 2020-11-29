@@ -132,7 +132,7 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-priv_libnif_la_LIBADD =
+@OSX_TRUE@priv_libnif_la_DEPENDENCIES = $(LIBOBJS) native/caller.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 am_priv_libnif_la_OBJECTS = native/priv_libnif_la-libnif.lo
 priv_libnif_la_OBJECTS = $(am_priv_libnif_la_OBJECTS)
@@ -279,6 +279,7 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
+OBJC_FLAGS = @OBJC_FLAGS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -297,6 +298,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+XCRUN = @XCRUN@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -353,7 +355,9 @@ AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = priv/libnif.la
 priv_libnif_la_SOURCES = native/libnif.c
-priv_libnif_la_CFLAGS = $(CFLAGS) $(ERL_CFLAGS)
+@OSX_TRUE@priv_libnif_la_LIBADD = $(LIBOBJS) native/caller.lo
+@OSX_FALSE@priv_libnif_la_CFLAGS = $(CFLAGS) $(ERL_CFLAGS)
+@OSX_TRUE@priv_libnif_la_CFLAGS = -DOSX $(CFLAGS) $(ERL_CFLAGS)
 priv_libnif_la_LDFLAGS = $(LDFLAGS) $(ERL_LDFLAGS) -shared -module -avoid-version -export-dynamic
 all: all-am
 
@@ -867,6 +871,8 @@ uninstall-am: uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 
+@OSX_TRUE@native/caller.lo: native/caller.m native/caller.h
+@OSX_TRUE@	$(LIBTOOL) --mode=compile xcrun clang -c $(OBJC_FLAGS) $(CFLAGS) -o $@ $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
