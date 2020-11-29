@@ -10,8 +10,8 @@ defmodule SwiftElixirTest.MixProject do
       deps: deps(),
       compilers: [:elixir_make] ++ Mix.compilers(),
       aliases: [
-        compile: [&configure/1, "compile"],
-        clean: [&configure/1, "clean"]
+        compile: [&autoreconf/1, &configure/1, "compile"],
+        clean: [&autoreconf/1, &configure/1, "clean"]
       ],
       make_clean: ["clean"]
     ]
@@ -29,6 +29,10 @@ defmodule SwiftElixirTest.MixProject do
     [
       {:elixir_make, "~> 0.6.1", runtime: false}
     ]
+  end
+
+  defp autoreconf(_args) do
+    System.cmd("autoreconf", ["-i"])
   end
 
   defp configure(_args) do
