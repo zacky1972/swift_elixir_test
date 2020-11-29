@@ -31,11 +31,12 @@ swift_elixir_test-*.tar
 /autom4te.cache/
 /Makefile.in
 /aclocal.m4
-/config.status
 /libtool
 
 # For configure
 /config.log
+/config.status
+/configure
 
 # For build files
 /native/.deps
