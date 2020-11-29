@@ -77,6 +77,23 @@ if test "x$ERL_LDFLAGS" = "x"; then
 fi
 AC_MSG_RESULT([$ERL_LDFLAGS])
 
+working_foundation=no
+working_nslog=no
+if test "x$all_mac" = "xyes"; then
+	AC_MSG_CHECKING([whether Foundation Framework exists])
+	cat>_framework.m<<EOF
+#import <Foundation/Foundation.h>
+int main() {
+	return 0;
+}
+EOF
+	if xcrun clang _framework.m -o _framework && ./_framework ; then
+		working_foundation=yes
+	fi
+	rm -f _framework.m _framework.o _framework
+	AC_MSG_RESULT([$working_foundation])
+fi
+
 LT_INIT()
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
