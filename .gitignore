@@ -40,4 +40,4 @@ swift_elixir_test-*.tar
 /native/*.o
 /native/*.lo
 /priv
-
+Makefile
