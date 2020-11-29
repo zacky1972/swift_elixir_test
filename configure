@@ -661,10 +661,6 @@ build_vendor
 build_cpu
 build
 LIBTOOL
-LDFLAGS_SET_FALSE
-LDFLAGS_SET_TRUE
-CFLAGS_SET_FALSE
-CFLAGS_SET_TRUE
 ac_ct_AR
 AR
 am__fastdepCC_FALSE
@@ -3964,23 +3960,6 @@ unknown)
 esac
 
 
- if test "x$CFLAGS" != x; then
-  CFLAGS_SET_TRUE=
-  CFLAGS_SET_FALSE='#'
-else
-  CFLAGS_SET_TRUE='#'
-  CFLAGS_SET_FALSE=
-fi
-
- if test "x$LDFLAGS" != x; then
-  LDFLAGS_SET_TRUE=
-  LDFLAGS_SET_FALSE='#'
-else
-  LDFLAGS_SET_TRUE='#'
-  LDFLAGS_SET_FALSE=
-fi
-
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether Elixir works" >&5
 $as_echo_n "checking whether Elixir works... " >&6; }
 # Extract the first word of "$ELIXIR", so it can be a program name with args.
@@ -4025,17 +4004,25 @@ fi
 
 
 
-ERL_EI_INCLUDE_DIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/include") |> IO.puts')
+if test "x$ERL_EI_INCLUDE_DIR" = "x"; then
+	ERL_EI_INCLUDE_DIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/include") |> IO.puts')
 
+fi
 
-ERL_EI_LIBDIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/lib") |> IO.puts')
+if test "x$ERL_EI_LIBDIR" = "x"; then
+	ERL_EI_LIBDIR=$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/lib") |> IO.puts')
 
+fi
 
-ERL_CFLAGS=$($ELIXIR --eval '"-I#{System.get_env("ERL_EI_INCLUDE_DIR", "#{to_string(:code.root_dir)}/usr/include")}" |> IO.puts')
+if test "x$ERL_CFLAGS" = "x"; then
+	ERL_CFLAGS=$($ELIXIR --eval '"-I#{System.get_env("ERL_EI_INCLUDE_DIR", "#{to_string(:code.root_dir)}/usr/include")}" |> IO.puts')
 
+fi
 
-ERL_LDFLAGS=$($ELIXIR --eval '"-L#{System.get_env("ERL_EI_LIBDIR", "#{to_string(:code.root_dir)}/usr/lib")}" |> IO.puts')
+if test "x$ERL_LDFLAGS" = "x"; then
+	ERL_LDFLAGS=$($ELIXIR --eval '"-L#{System.get_env("ERL_EI_LIBDIR", "#{to_string(:code.root_dir)}/usr/lib")}" |> IO.puts')
 
+fi
 
 case `pwd` in
   *\ * | *\	*)
@@ -12269,14 +12256,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${CFLAGS_SET_TRUE}" && test -z "${CFLAGS_SET_FALSE}"; then
-  as_fn_error $? "conditional \"CFLAGS_SET\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${LDFLAGS_SET_TRUE}" && test -z "${LDFLAGS_SET_FALSE}"; then
-  as_fn_error $? "conditional \"LDFLAGS_SET\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
