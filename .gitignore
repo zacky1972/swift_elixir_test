@@ -29,6 +29,10 @@ swift_elixir_test-*.tar
 
 # For Autoconf
 /autom4te.cache/
+/Makefile.in
+/aclocal.m4
+/config.status
+/libtool
 
 # For configure
 /config.log
