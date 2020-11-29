@@ -1,6 +1,11 @@
 dnl Process this file with autoconf to produce a configure script
 
 AC_INIT([priv/.libs/libnif.so], [1.0])
+
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
 AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
@@ -13,11 +18,11 @@ AC_ARG_VAR([ERL_LDFLAGS], [ERL_LDFLAGS])
 
 AC_ARG_VAR([OBJC_FLAGS], [OBJC_FLAGS])
 
-AC_CANONICAL_HOST
 AC_PROG_CC
 
 build_linux=no
 build_mac=no
+all_mac=no
 
 case "${host_os}" in
 	linux*)
@@ -27,8 +32,13 @@ case "${host_os}" in
 		AC_MSG_ERROR([OS $host_os on Windows is not supported])
 		;;
 	darwin*)
+		if test ${build_os} == ${host_os}; then
+			if test ${build_os} == ${target_os}; then
+				all_mac=yes
+				AC_PATH_PROG(XCRUN, xcrun)
+			fi
+		fi
 		build_mac=yes
-		AC_PATH_PROG(XCRUN, xcrun)
 		;;
 	*)
 		AC_MSG_ERROR([OS $host_os is not suppurted])
@@ -37,6 +47,7 @@ esac
 
 AM_CONDITIONAL([LINUX], [test "x$build_linux" = "xyes"])
 AM_CONDITIONAL([OSX], [test "x$build_mac" = "xyes"])
+AM_CONDITIONAL([ALLOSX], [test "x$all_mac" = "xyes"])
 
 AM_PROG_AR
 
