@@ -14,24 +14,19 @@ AC_ARG_VAR([ERL_LDFLAGS], [ERL_LDFLAGS])
 AC_PROG_CC
 AM_PROG_AR
 
+AM_CONDITIONAL([CFLAGS_SET], [test "x$CFLAGS" != x])
+AM_CONDITIONAL([LDFLAGS_SET], [test "x$LDFLAGS" != x])
+
 AC_MSG_CHECKING([whether Elixir works])
 AC_PATH_PROG(ELIXIR, $ELIXIR, elixir)
-if test "x$ERL_EI_INCLUDE_DIR" = "x"; then
-	AC_CONFIG_COMMANDS([ERL_EI_INCLUDE_DIR], [elixir --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/include") |> IO.puts'])
-fi
-if test "x$ERL_EI_LIBDIR" = "x"; then
-	AC_CONFIG_COMMANDS([ERL_EI_LIBDIR], [elixir --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/lib") |> IO.puts'])
-fi
-if test "x$ERL_CFLAGS" = "x" ; then
-	if test "x$ERL_EI_INCLUDE_DIR" = "x"; then
-		AC_CONFIG_COMMANDS([ERL_CFLAGS], [elixir --eval '"-I#{System.get_env("ERL_EI_INCLUDE_DIR", "#{to_string(:code.root_dir)}/usr/include")}" |> IO.puts'], [ERL_EI_INCLUDE_DIR=$ERL_EI_INCLUDE_DIR])
-	fi
-fi
-if test "x$ERL_LDFLAGS" = "x"; then
-	if test "x$ERL_EI_LIBDIR" = "x"; then
-		AC_CONFIG_COMMANDS([ERL_LDFLAGS], [elixir --eval '"-L#{System.get_env("ERL_EI_LIBDIR", "#{to_string(:code.root_dir)}/usr/lib")}" |> IO.puts'], [ERL_EI_LIBDIR=$ERL_EI_LIBDIR])
-	fi
-fi
+
+AC_SUBST([ERL_EI_INCLUDE_DIR], [$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/include") |> IO.puts')])
+
+AC_SUBST([ERL_EI_LIBDIR], [$($ELIXIR --eval ':code.root_dir |> to_string() |> Kernel.<>("/usr/lib") |> IO.puts')])
+
+AC_SUBST([ERL_CFLAGS], [$($ELIXIR --eval '"-I#{System.get_env("ERL_EI_INCLUDE_DIR", "#{to_string(:code.root_dir)}/usr/include")}" |> IO.puts')])
+
+AC_SUBST([ERL_LDFLAGS], [$($ELIXIR --eval '"-L#{System.get_env("ERL_EI_LIBDIR", "#{to_string(:code.root_dir)}/usr/lib")}" |> IO.puts')])
 
 LT_INIT()
 AC_CONFIG_FILES([Makefile])

@@ -134,7 +134,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 priv_libnif_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_priv_libnif_la_OBJECTS = native/libnif.lo
+am_priv_libnif_la_OBJECTS = native/priv_libnif_la-libnif.lo
 priv_libnif_la_OBJECTS = $(am_priv_libnif_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -142,8 +142,8 @@ am__v_lt_0 = --silent
 am__v_lt_1 = 
 priv_libnif_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(priv_libnif_la_LDFLAGS) $(LDFLAGS) -o \
-	$@
+	$(priv_libnif_la_CFLAGS) $(CFLAGS) $(priv_libnif_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -159,7 +159,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = native/$(DEPDIR)/libnif.Plo
+am__depfiles_remade = native/$(DEPDIR)/priv_libnif_la-libnif.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -253,10 +253,10 @@ ECHO_N =
 ECHO_T = 
 EGREP = /usr/bin/grep -E
 ELIXIR = elixir
-ERL_CFLAGS = 
-ERL_EI_INCLUDE_DIR = 
-ERL_EI_LIBDIR = 
-ERL_LDFLAGS = 
+ERL_CFLAGS = -I/Users/zacky/.asdf/installs/erlang/23.1.2/usr/include
+ERL_EI_INCLUDE_DIR = /Users/zacky/.asdf/installs/erlang/23.1.2/usr/include
+ERL_EI_LIBDIR = /Users/zacky/.asdf/installs/erlang/23.1.2/usr/lib
+ERL_LDFLAGS = -L/Users/zacky/.asdf/installs/erlang/23.1.2/usr/lib
 EXEEXT = 
 FGREP = /usr/bin/grep -F
 GREP = /usr/bin/grep
@@ -353,7 +353,8 @@ AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = priv/libnif.la
 priv_libnif_la_SOURCES = native/libnif.c
-priv_libnif_la_LDFLAGS = -shared -module -avoid-version -export-dynamic
+priv_libnif_la_CFLAGS = $(CFLAGS) $(ERL_CFLAGS)
+priv_libnif_la_LDFLAGS = $(LDFLAGS) $(ERL_LDFLAGS) -shared -module -avoid-version -export-dynamic
 all: all-am
 
 .SUFFIXES:
@@ -432,7 +433,7 @@ native/$(am__dirstamp):
 native/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) native/$(DEPDIR)
 	@: > native/$(DEPDIR)/$(am__dirstamp)
-native/libnif.lo: native/$(am__dirstamp) \
+native/priv_libnif_la-libnif.lo: native/$(am__dirstamp) \
 	native/$(DEPDIR)/$(am__dirstamp)
 priv/$(am__dirstamp):
 	@$(MKDIR_P) priv
@@ -449,7 +450,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include native/$(DEPDIR)/libnif.Plo # am--include-marker
+include native/$(DEPDIR)/priv_libnif_la-libnif.Plo # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -480,6 +481,13 @@ am--depfiles: $(am__depfiles_remade)
 #	$(AM_V_CC)source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(LTCOMPILE) -c -o $@ $<
+
+native/priv_libnif_la-libnif.lo: native/libnif.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(priv_libnif_la_CFLAGS) $(CFLAGS) -MT native/priv_libnif_la-libnif.lo -MD -MP -MF native/$(DEPDIR)/priv_libnif_la-libnif.Tpo -c -o native/priv_libnif_la-libnif.lo `test -f 'native/libnif.c' || echo '$(srcdir)/'`native/libnif.c
+	$(AM_V_at)$(am__mv) native/$(DEPDIR)/priv_libnif_la-libnif.Tpo native/$(DEPDIR)/priv_libnif_la-libnif.Plo
+#	$(AM_V_CC)source='native/libnif.c' object='native/priv_libnif_la-libnif.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(AM_V_CC_no)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(priv_libnif_la_CFLAGS) $(CFLAGS) -c -o native/priv_libnif_la-libnif.lo `test -f 'native/libnif.c' || echo '$(srcdir)/'`native/libnif.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -770,7 +778,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f native/$(DEPDIR)/libnif.Plo
+		-rm -f native/$(DEPDIR)/priv_libnif_la-libnif.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -818,7 +826,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f native/$(DEPDIR)/libnif.Plo
+		-rm -f native/$(DEPDIR)/priv_libnif_la-libnif.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
