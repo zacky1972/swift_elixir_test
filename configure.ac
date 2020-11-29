@@ -108,6 +108,9 @@ EOF
 	AC_MSG_RESULT([$working_nslog])
 fi
 
+AM_CONDITIONAL([EXIST_FOUNDATION], [test "x$working_foundation" = "xyes"])
+AM_CONDITIONAL([WORK_NSLOG], [test "x$working_nslog" = "xyes"])
+
 LT_INIT()
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
