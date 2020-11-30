@@ -1,6 +1,13 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 
+if EXIST_FOUNDATION
+OBJC_FLAGS += -DEXIST_FOUNDATION
+endif
+if WORK_NSLOG
+OBJC_FLAGS += -DWORK_NSLOG
+endif
+
 lib_LTLIBRARIES = priv/libnif.la
 priv_libnif_la_SOURCES = native/libnif.c
 
