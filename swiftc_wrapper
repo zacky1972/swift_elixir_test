@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "xcrun swiftc $@" | sed -e 's/-fno-common//g' | sed -e 's/-DPIC//g' > _swiftc_wrapper
+chmod +x _swiftc_wrapper
+./_swiftc_wrapper
+rm _swiftc_wrapper
+
