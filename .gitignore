@@ -46,3 +46,10 @@ swift_elixir_test-*.tar
 /native/*.lo
 /priv
 Makefile
+
+# For Swift
+/ExampleClass
+/ExampleClass.swiftdoc
+/ExampleClass.swiftmodule
+/ExampleClass.swiftsourceinfo
+/native/ExampleClass-Swift.h

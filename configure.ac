@@ -17,6 +17,7 @@ AC_ARG_VAR([ERL_CFLAGS], [ERL_CFLAGS])
 AC_ARG_VAR([ERL_LDFLAGS], [ERL_LDFLAGS])
 
 AC_ARG_VAR([OBJC_FLAGS], [OBJC_FLAGS])
+AC_ARG_VAR([SWIFT_FLAGS], [SWIFT_FLAGS])
 
 AC_PROG_CC
 
@@ -80,7 +81,7 @@ AC_MSG_RESULT([$ERL_LDFLAGS])
 working_foundation=no
 working_nslog=no
 if test "x$all_mac" = "xyes"; then
-	AC_MSG_CHECKING([whether Foundation Framework exists])
+	AC_MSG_CHECKING([whether Foundation Framework exists in Objective C])
 	cat>_framework.m<<EOF
 #import <Foundation/Foundation.h>
 int main() {
@@ -88,12 +89,21 @@ int main() {
 }
 EOF
 	if xcrun clang _framework.m -o _framework > /dev/null 2>&1 && ./_framework > /dev/null 2>&1 ; then
-		working_foundation=yes
+		AC_MSG_CHECKING([and Swift])
+		cat>_framework.swift<<EOF
+import Foundation
+import Darwin
+
+exit(0)
+EOF
+		if xcrun swiftc _framework.swift -o _framework > /dev/null 2>&1 && ./_framework > /dev/null 2>&1 ; then
+			working_foundation=yes
+		fi
 	fi
-	rm -f _framework.m _framework.o _framework
+	rm -f _framework.swift _framework.m _framework.o _framework
 	AC_MSG_RESULT([$working_foundation])
 
-	AC_MSG_CHECKING([whether NSLog works])
+	AC_MSG_CHECKING([whether NSLog works in Objective-C])
 	cat>_nslog.m<<EOF
 #import <Foundation/Foundation.h>
 int main() {
@@ -102,9 +112,19 @@ int main() {
 }
 EOF
 	if xcrun clang _nslog.m -o _nslog -framework Foundation > /dev/null 2>&1 && ./_nslog  > /dev/null 2>&1 ; then
-		working_nslog=yes
+		AC_MSG_CHECKING([and Swift])
+		cat>_nslog.swift<<EOF
+import Foundation
+import Darwin
+
+NSLog("hello world")
+exit(0)
+EOF
+		if xcrun swiftc _nslog.swift -o _nslog > /dev/null 2>&1 && ./_nslog  > /dev/null 2>&1 ; then
+			working_nslog=yes
+		fi
 	fi
-	rm -f _nslog.m _nslog.o _nslog
+	rm -f _nslog.swift _nslog.m _nslog.o _nslog
 	AC_MSG_RESULT([$working_nslog])
 fi
 
