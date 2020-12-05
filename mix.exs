@@ -27,7 +27,7 @@ defmodule SwiftElixirTest.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:elixir_make, "~> 0.6.1", runtime: false}
+      {:elixir_make, "~> 0.6.2", runtime: false}
     ]
   end
 
