@@ -53,6 +53,10 @@ defmodule SwiftElixirTest.MixProject do
 
     System.cmd("ar", ["-xv", "#{lib_dir}/libei.a", "ei_compat.o"])
 
+    {uname_m, 0} = System.cmd("uname", ["-m"])
+    {uname_s, 0} = System.cmd("uname", ["-s"])
+    {uname_r, 0} = System.cmd("uname", ["-r"])
+
     r =
       case System.cmd("file", ["ei_compat.o"]) do
         {result, 0} ->
@@ -71,7 +75,8 @@ defmodule SwiftElixirTest.MixProject do
           platform =
             Enum.filter(
               %{
-                "apple-darwin" => l |> Enum.filter(&String.match?(&1, ~r/Mach-O/)) |> length,
+                "apple-darwin#{uname_r}" =>
+                  l |> Enum.filter(&String.match?(&1, ~r/Mach-O/)) |> length,
                 "linux-gnu" => l |> Enum.filter(&String.match?(&1, ~r/ELF/)) |> length
               },
               fn {_, v} -> v != 0 end
@@ -80,18 +85,14 @@ defmodule SwiftElixirTest.MixProject do
           "#{arch |> hd() |> elem(0)}-#{platform |> hd() |> elem(0)}"
 
         _ ->
-          {arch, 0} = System.cmd("uname", ["-m"])
-          {s, 0} = System.cmd("uname", ["-s"])
-          {rr, 0} = System.cmd("uname", ["-r"])
-
           platform =
-            case s do
+            case uname_s do
               "Linux" -> "linux-gnu"
-              "Darwin" -> "apple-darwin#{rr}"
+              "Darwin" -> "apple-darwin#{uname_r}"
               _ -> raise "unsupported platform"
             end
 
-          "#{arch}-#{platform}"
+          "#{uname_m}-#{platform}"
       end
 
     File.rm("ei_compat.o")
