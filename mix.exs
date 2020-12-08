@@ -82,11 +82,12 @@ defmodule SwiftElixirTest.MixProject do
         _ ->
           {arch, 0} = System.cmd("uname", ["-m"])
           {s, 0} = System.cmd("uname", ["-s"])
+          {rr, 0} = System.cmd("uname", ["-r"])
 
           platform =
             case s do
               "Linux" -> "linux-gnu"
-              "Darwin" -> "apple-darwin"
+              "Darwin" -> "apple-darwin#{rr}"
               _ -> raise "unsupported platform"
             end
 
