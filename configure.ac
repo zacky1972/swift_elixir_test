@@ -33,12 +33,20 @@ case "${host_os}" in
 		AC_MSG_ERROR([OS $host_os on Windows is not supported])
 		;;
 	darwin*)
-		if test ${build_os} == ${host_os}; then
-			if test ${build_os} == ${target_os}; then
-				all_mac=yes
-				AC_PATH_PROG(XCRUN, xcrun)
-			fi
-		fi
+		case "${build_os}" in
+			darwin*)
+				case "${target_os}" in
+					darwin*)
+						all_mac=yes
+						AC_PATH_PROG(XCRUN, xcrun)
+						;;
+					*)
+						;;
+				esac
+				;;
+			*)
+				;;
+		esac
 		build_mac=yes
 		;;
 	*)
