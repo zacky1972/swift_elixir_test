@@ -3,7 +3,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 if ALLOSX
 AM_CFLAGS = -target $(target_alias)
-AM_LDFLAGS = -arch $(target_cpu)
+AM_LDFLAGS = -arch $(TARGET_CPU_ALIAS)
 endif
 
 lib_LTLIBRARIES = priv/libnif.la
