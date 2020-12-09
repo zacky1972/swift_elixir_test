@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS = -target $(target)
+AM_CFLAGS = -target=$(target)
 
 lib_LTLIBRARIES = priv/libnif.la
 priv_libnif_la_SOURCES = native/libnif.c
