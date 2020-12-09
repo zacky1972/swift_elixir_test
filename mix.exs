@@ -57,10 +57,14 @@ defmodule SwiftElixirTest.MixProject do
     {uname_s, 0} = System.cmd("uname", ["-s"])
     {uname_r, 0} = System.cmd("uname", ["-r"])
 
+    uname_m = String.trim(uname_m)
+    uname_s = String.trim(uname_s)
+    uname_r = String.trim(uname_r)
+
     r =
       case System.cmd("file", ["ei_compat.o"]) do
         {result, 0} ->
-          l = String.split(result)
+          l = result |> String.trim() |> String.split()
 
           arch =
             Enum.filter(
@@ -82,7 +86,7 @@ defmodule SwiftElixirTest.MixProject do
               fn {_, v} -> v != 0 end
             )
 
-          "#{arch |> hd() |> elem(0)}-#{platform |> hd() |> elem(0)}"
+          "#{arch |> hd() |> elem(0)}-#{platform |> hd() |> elem(0) |> String.trim()}"
 
         _ ->
           platform =
