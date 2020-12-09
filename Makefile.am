@@ -24,11 +24,11 @@ endif
 if ALLOSX
 priv_libnif_la_CFLAGS = -DALLOSX $(CFLAGS) $(AM_CFLAGS) $(ERL_CFLAGS)
 else
-priv_libnif_la_CFLAGS = $(CFLAGS) $(AM_CFLAGS) $(ERL_CFLAGS)
+priv_libnif_la_CFLAGS = $(CFLAGS) $(ERL_CFLAGS)
 endif
 
 if ALLOSX
-priv_libnif_la_LDFLAGS = $(LDFLAGS) $(ERL_LDFLAGS) -shared -module -avoid-version -export-dynamic -L`xcrun --show-sdk-path`/usr/lib/swift -undefined dynamic_lookup
+priv_libnif_la_LDFLAGS = $(AM_CFLAGS) $(LDFLAGS) $(ERL_LDFLAGS) -shared -module -avoid-version -export-dynamic -L`xcrun --show-sdk-path`/usr/lib/swift -undefined dynamic_lookup
 else
 priv_libnif_la_LDFLAGS = $(LDFLAGS) $(ERL_LDFLAGS) -shared -module -avoid-version -export-dynamic
 endif
