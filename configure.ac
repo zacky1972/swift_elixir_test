@@ -58,7 +58,7 @@ AM_CONDITIONAL([LINUX], [test "x$build_linux" = "xyes"])
 AM_CONDITIONAL([OSX], [test "x$build_mac" = "xyes"])
 AM_CONDITIONAL([ALLOSX], [test "x$all_mac" = "xyes"])
 
-AC_SUBST([TARGET_CPU_ALIAS], [`echo $target_cpu | sed 's/aarch64/arm64/g'`])
+AC_SUBST([TARGET_CPU_ALIAS], [`echo $target_cpu | sed 's/aarch64/arm64e/g'`])
 
 AM_PROG_AR
 
