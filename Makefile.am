@@ -19,7 +19,7 @@ native/ExampleClass.lo: native/ExampleClass.swift
 	$(LIBTOOL) --mode=compile ./swiftc_wrapper $(SWIFT_FLAGS) $(AM_CFLAGS) -emit-object -parse-as-library $< -o $@ 
 
 native/ExampleClass-Swift.h: native/ExampleClass.swift
-	xcrun swiftc $(SWIFT_FLAGS) $< -emit-objc-header -emit-objc-header-path $@
+	xcrun swiftc $(SWIFT_FLAGS) $(AM_CFLAGS) $< -emit-objc-header -emit-objc-header-path $@
 endif
 
 if ALLOSX
