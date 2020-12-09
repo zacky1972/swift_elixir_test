@@ -1,7 +1,9 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 
+if ALLOSX
 AM_CFLAGS = --target=$(target)
+endif
 
 lib_LTLIBRARIES = priv/libnif.la
 priv_libnif_la_SOURCES = native/libnif.c
